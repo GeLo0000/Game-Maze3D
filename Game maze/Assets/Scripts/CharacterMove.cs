@@ -77,7 +77,7 @@ public class CharacterMove : MonoBehaviour
         _movementPressed = _currentMovement.x != 0 || _currentMovement.y != 0;
 
         // Apply movement in the forward direction (character moves in the direction it faces)
-        Vector3 movement = new Vector3(_currentMovement.x, 0, _currentMovement.y) * speed * Time.deltaTime;
+        Vector3 movement = new Vector3(_currentMovement.x, 0, _currentMovement.y).normalized * speed * Time.deltaTime;
 
         // Move the character based on the movement direction and speed
         transform.Translate(movement, Space.Self);
