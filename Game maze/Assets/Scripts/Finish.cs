@@ -24,7 +24,7 @@ public class Finish : MonoBehaviour
 
     private void Awake()
     {
-        //_audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void Update()
@@ -41,9 +41,9 @@ public class Finish : MonoBehaviour
 
         if (LayerMask.LayerToName(layer) == _playerLayer)
         {
-            //_audioManager.PlaySFX(_audioManager.finish);
             _finishText.text = _finishText.text + _timer.GetTimer();
             _pauseManager.Pause(_finishMenu);
+            _audioManager.PlayMusic(_audioManager.finish);
         }
     }
 }

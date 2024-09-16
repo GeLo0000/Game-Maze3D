@@ -4,30 +4,40 @@ public class AudioManager : MonoBehaviour
 {
     [Header("-------- Audio Source -------")]
     public AudioSource musicSource;
-    [SerializeField] AudioSource SFXSource;
+    public AudioSource soundMoveSource;
+    [SerializeField] private AudioSource SFXSource;
 
     [Header("-------- AudioClip -------")]
     public AudioClip background;
     public AudioClip buttonClick;
-    public AudioClip buttonCoinsBuyClick;
-    public AudioClip buttonKyesOpenClick;
-    public AudioClip jump;
-    public AudioClip coinsGet;
-    public AudioClip keysGet;
+    public AudioClip running;
+    public AudioClip walking;
+    public AudioClip getKey;
     public AudioClip damage;
+    public AudioClip pause;
     public AudioClip playerDeath;
-    public AudioClip enemyDeath;
     public AudioClip finish;
 
     private void Start()
     {
-        musicSource.clip = background;
-        musicSource.Play();
+        PlayMusic(background);
     }
 
     public void PlaySFX(AudioClip clip)
     {
         SFXSource.PlayOneShot(clip);
+    }
+
+    public void PlayMusic(AudioClip clip)
+    {
+        musicSource.clip = clip;
+        musicSource.Play();
+    }
+
+    public void PlayMoveSource(AudioClip clip)
+    {
+        soundMoveSource.clip = clip;
+        soundMoveSource.Play();
     }
 
     public void PlayButton()

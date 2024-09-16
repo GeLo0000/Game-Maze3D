@@ -40,7 +40,7 @@ public class CharacterMove : MonoBehaviour
     {
         _playerInput = new PlayerInput();
 
-        // _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
         // set the player input values using listeners
         _playerInput.CharacterControls.Run.performed += ctx => _runPressed = ctx.ReadValueAsButton();
@@ -83,28 +83,48 @@ public class CharacterMove : MonoBehaviour
         // Move the character based on the movement direction and speed
         transform.Translate(movement, Space.Self);
 
-        // start walking if movement pressed is true and not already walking
+        // Walking logic
         if (_movementPressed && !isWalking)
         {
             _animator.SetBool(_isWalkingHash, true);
+            if (_audioManager.soundMoveSource.clip != _audioManager.walking || !_audioManager.soundMoveSource.isPlaying)
+            {
+                _audioManager.PlayMoveSource(_audioManager.walking);
+            }
         }
 
-        // stop walking if movement pressed is false and currently walking
+        // Stop walking when not moving
         if (!_movementPressed && isWalking)
         {
             _animator.SetBool(_isWalkingHash, false);
+            _audioManager.soundMoveSource.Pause();
         }
 
-        // start running if movement pressed and run pressed is true and not already running
+        // Running logic
         if (_movementPressed && _runPressed && !isRunning)
         {
             _animator.SetBool(_isRunningHash, true);
+            if (_audioManager.soundMoveSource.clip != _audioManager.running)
+            {
+                _audioManager.PlayMoveSource(_audioManager.running);
+            }
         }
 
-        // stop running if movement pressed or run pressed is false and currently running
+        // Switch back to walking sound when stop running
         if ((!_movementPressed || !_runPressed) && isRunning)
         {
             _animator.SetBool(_isRunningHash, false);
+            if (_movementPressed) // If still moving, switch to walking sound
+            {
+                if (_audioManager.soundMoveSource.clip != _audioManager.walking)
+                {
+                    _audioManager.PlayMoveSource(_audioManager.walking);
+                }
+            }
+            else // If completely stopped, pause the sound
+            {
+                _audioManager.soundMoveSource.Pause();
+            }
         }
     }
 
@@ -151,7 +171,7 @@ public class CharacterMove : MonoBehaviour
 
         if (LayerMask.LayerToName(layer) == _keyLayer)
         {
-            // _audioManager.PlaySFX(_audioManager.keysGet);
+            _audioManager.PlaySFX(_audioManager.getKey);
             _keysManager.AddKey(1);
             other.gameObject.SetActive(false);
         }

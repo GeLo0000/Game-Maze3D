@@ -14,7 +14,7 @@ public class HeartManager : MonoBehaviour
 
     private void Awake()
     {
-        // _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         currentIndex = _heartImages.Length;
     }
 
@@ -25,12 +25,12 @@ public class HeartManager : MonoBehaviour
         
         if (currentIndex <= 0)
         {
-            // _audioManager.PlaySFX(_audioManager.playerDeath);
+            _audioManager.PlaySFX(_audioManager.playerDeath);
             _pauseManager.Pause(_deathMenu);
         }
         else
         {
-            // _audioManager.PlaySFX(_audioManager.damage);
+            _audioManager.PlaySFX(_audioManager.damage);
             // _audioManager.PlaySFX(_audioManager.enemyDeath);
         }
     }
