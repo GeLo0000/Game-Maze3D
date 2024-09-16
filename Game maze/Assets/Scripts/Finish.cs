@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+
 
 public class Finish : MonoBehaviour
 {
@@ -10,6 +12,14 @@ public class Finish : MonoBehaviour
     // Layer names
     private const string _playerLayer = "Player";
 
+    [SerializeField] private KeysManager _keysManager;
+
+    [SerializeField] private GameObject _keyLine;
+
+    [SerializeField] private Timer _timer;
+
+    [SerializeField] private TMP_Text _finishText;
+
     private AudioManager _audioManager;
 
     private void Awake()
@@ -17,13 +27,22 @@ public class Finish : MonoBehaviour
         //_audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
-    void OnTriggerExit(Collider other)
+    private void Update()
+    {
+        if (_keysManager.GetCountKey() == _keysManager.GetMaxCountKey())
+        {
+            _keyLine.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
     {
         int layer = other.gameObject.layer;
 
         if (LayerMask.LayerToName(layer) == _playerLayer)
         {
             //_audioManager.PlaySFX(_audioManager.finish);
+            _finishText.text = _finishText.text + _timer.GetTimer();
             _pauseManager.Pause(_finishMenu);
         }
     }

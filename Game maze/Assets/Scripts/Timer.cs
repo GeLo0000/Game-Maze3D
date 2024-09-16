@@ -15,6 +15,11 @@ public class Timer : MonoBehaviour
         DisplayTime(_timeElapsed);
     }
 
+    public string GetTimer()
+    {
+        return _timerText.text;
+    }
+
     private void DisplayTime(float timeToDisplay)
     {
         float minutes = Mathf.FloorToInt(timeToDisplay / 60);
