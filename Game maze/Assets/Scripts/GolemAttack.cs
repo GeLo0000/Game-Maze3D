@@ -11,9 +11,16 @@ public class GolemAttack : MonoBehaviour
     // Сила, з якою кидається камінь
     [SerializeField] private float throwForce = 10f;
 
+    // Змінні для розміру каменя
+    [SerializeField] private Vector3 minStoneScale = new Vector3(0.1f, 0.1f, 0.1f);
+    [SerializeField] private Vector3 maxStoneScale = new Vector3(1f, 1f, 1f);
+    [SerializeField] private float growthDuration = 1f; // Час, за який камінь досягає максимального розміру
+
     private GameObject _spawnedStone;
     private Animator _animator;
     private bool _isHoldingStone = false; // Прапорець, щоб відстежувати чи голем тримає камінь
+    private bool _holdOnRightHand = false; // Прапорець, щоб фіксувати камінь на правій руці
+    private float _growthStartTime;
 
     private void Start()
     {
@@ -41,6 +48,16 @@ public class GolemAttack : MonoBehaviour
         Quaternion spawnRotation = CalculateSpawnRotation();
         _spawnedStone = Instantiate(stonePrefab, spawnPoint, spawnRotation);
         _isHoldingStone = true;
+        _holdOnRightHand = false; // Камінь все ще тримається між двома руками
+
+        // Запам'ятовуємо час початку росту
+        _growthStartTime = Time.time;
+    }
+
+    // Метод, що фіксує камінь на правій руці
+    public void HoldStoneOnRightHand()
+    {
+        _holdOnRightHand = true; // Фіксуємо камінь на правій руці
     }
 
     private void Update()
@@ -48,9 +65,30 @@ public class GolemAttack : MonoBehaviour
         // Якщо камінь створений і його потрібно тримати
         if (_spawnedStone != null && _isHoldingStone)
         {
-            // Оновлюємо позицію і обертання каменя між двома руками, поки голем його тре
-            _spawnedStone.transform.position = CalculateSpawnPoint();
-            _spawnedStone.transform.rotation = CalculateSpawnRotation();
+            if (_holdOnRightHand)
+            {
+                // Якщо прапорець встановлений, фіксуємо камінь на правій руці
+                _spawnedStone.transform.position = rightHand.position;
+            }
+            else
+            {
+                // Оновлюємо позицію і обертання каменя між двома руками, поки голем його тре
+                _spawnedStone.transform.position = CalculateSpawnPoint();
+                _spawnedStone.transform.rotation = CalculateSpawnRotation();
+            }
+
+            // Розрахунок нового розміру каменя
+            float growthProgress = (Time.time - _growthStartTime) / growthDuration;
+            if (growthProgress < 1f)
+            {
+                // Розрахунок розміру на основі часу
+                _spawnedStone.transform.localScale = Vector3.Lerp(minStoneScale, maxStoneScale, growthProgress);
+            }
+            else
+            {
+                // Розмір досяг максимального значення
+                _spawnedStone.transform.localScale = maxStoneScale;
+            }
         }
     }
 
@@ -74,4 +112,3 @@ public class GolemAttack : MonoBehaviour
         }
     }
 }
-

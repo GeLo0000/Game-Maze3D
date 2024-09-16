@@ -25,13 +25,13 @@ public class HeartManager : MonoBehaviour
         
         if (currentIndex <= 0)
         {
+            _audioManager.PlaySFX(_audioManager.damage);
             _audioManager.PlaySFX(_audioManager.playerDeath);
             _pauseManager.Pause(_deathMenu);
         }
         else
         {
             _audioManager.PlaySFX(_audioManager.damage);
-            // _audioManager.PlaySFX(_audioManager.enemyDeath);
         }
     }
 }

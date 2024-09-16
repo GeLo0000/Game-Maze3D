@@ -17,6 +17,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip pause;
     public AudioClip playerDeath;
     public AudioClip finish;
+    public AudioClip destroyStone;
+    public AudioClip flyStone;
 
     private void Start()
     {

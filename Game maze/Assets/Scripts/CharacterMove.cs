@@ -160,7 +160,6 @@ public class CharacterMove : MonoBehaviour
 
         if (LayerMask.LayerToName(layer) == _enemyLayer)
         {
-            collision.gameObject.SetActive(false);
             _heartManager.TakeDamage();
         }
     }
