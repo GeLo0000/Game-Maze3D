@@ -42,9 +42,9 @@ public class StoneController : MonoBehaviour
     }
 
     // ћетод, що викликаЇтьс€ при доторканн≥ до ≥нших об'Їкт≥в
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        int layer = collision.gameObject.layer;
+        int layer = other.gameObject.layer;
         // ѕерев≥рка, чи доторкнулис€ до ст≥ни або гравц€
         if (LayerMask.LayerToName(layer) == _wallLayer)
         {

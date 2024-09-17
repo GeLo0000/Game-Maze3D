@@ -154,16 +154,6 @@ public class CharacterMove : MonoBehaviour
         _playerInput.CharacterControls.Disable();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        int layer = collision.gameObject.layer;
-
-        if (LayerMask.LayerToName(layer) == _enemyLayer)
-        {
-            _heartManager.TakeDamage();
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         int layer = other.gameObject.layer;
@@ -173,6 +163,11 @@ public class CharacterMove : MonoBehaviour
             _audioManager.PlaySFX(_audioManager.getKey);
             _keysManager.AddKey(1);
             other.gameObject.SetActive(false);
+        }
+
+        if (LayerMask.LayerToName(layer) == _enemyLayer)
+        {
+            _heartManager.TakeDamage();
         }
     }
 }

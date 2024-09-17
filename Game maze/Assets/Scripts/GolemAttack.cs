@@ -109,16 +109,15 @@ public class GolemAttack : MonoBehaviour
             _isHoldingStone = false;
 
             // Орієнтуємо камінь в напрямку, на який дивиться голем
-            _spawnedStone.transform.rotation = Quaternion.LookRotation(transform.forward);
+            // _spawnedStone.transform.rotation = Quaternion.LookRotation(transform.forward);
 
             // Отримуємо Rigidbody каменя і додаємо силу для кидка
             Rigidbody rb = _spawnedStone.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+                rb.velocity = Vector3.zero;
+                rb.AddForce(transform.right * throwForce, ForceMode.Impulse);
             }
         }
-
-        //_golemSound.PlayOneShot(_throwSound);
     }
 }
