@@ -27,6 +27,7 @@ public class HeartManager : MonoBehaviour
         {
             _audioManager.PlaySFX(_audioManager.damage);
             _audioManager.PlaySFX(_audioManager.playerDeath);
+            _audioManager.Mute();
             _pauseManager.Pause(_deathMenu);
         }
         else

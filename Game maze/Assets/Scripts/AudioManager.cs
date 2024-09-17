@@ -44,4 +44,14 @@ public class AudioManager : MonoBehaviour
     {
         SFXSource.PlayOneShot(buttonClick);
     }
+
+    public void Mute()
+    {
+        musicSource.Pause();
+    }
+
+    public void Play()
+    {
+        PlayMusic(background);
+    }
 }

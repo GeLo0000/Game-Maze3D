@@ -23,7 +23,7 @@ public class PauseControl : MonoBehaviour
     private void Update()
     {
         // Check if the spacebar (or another key) is pressed to toggle pause
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (_isPaused)
             {
@@ -45,7 +45,7 @@ public class PauseControl : MonoBehaviour
         _isPaused = false;
         Cursor.visible = false; // Hide the cursor when resuming the game
         Cursor.lockState = CursorLockMode.Locked; // Lock the cursor in the center of the screen
-        _audioManager.musicSource.Play(); // Resume the music
+        //_audioManager.musicSource.Play(); // Resume the music
     }
 
     // Pauses the game by showing the pause menu, freezing time, and showing the cursor
@@ -56,7 +56,8 @@ public class PauseControl : MonoBehaviour
         _isPaused = true;
         Cursor.visible = true;  // Show the cursor when the game is paused
         Cursor.lockState = CursorLockMode.None; // Unlock the cursor so the player can move it
-        _audioManager.musicSource.Pause(); // Pause the music
+        
         _audioManager.soundMoveSource.Pause();
+        //_audioManager.musicSource.Pause(); // Pause the music
     }
 }
