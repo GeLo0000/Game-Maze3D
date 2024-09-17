@@ -7,28 +7,65 @@ public class StoneController : MonoBehaviour
     private const string _wallLayer = "Wall";
     private const string _playerLayer = "Player";
 
-    private AudioManager _audioManager;
+    [SerializeField] private AudioSource _stoneSound;
 
-    private void Awake()
+    [SerializeField] private AudioClip _stoneDestroy;
+    [SerializeField] private AudioClip _stoneFly;
+    private Rigidbody _rigidbody;
+
+    private void Start()
     {
-        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        // ќтримуЇмо Rigidbody дл€ перев≥рки швидкост≥
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        _audioManager.PlaySFX(_audioManager.flyStone);
+        // якщо кам≥нь рухаЇтьс€
+        if (_rigidbody.velocity.magnitude > 0.1f)
+        {
+            // якщо звук польоту не граЇ, запускаЇмо його
+            if (!_stoneSound.isPlaying)
+            {
+                _stoneSound.clip = _stoneFly;
+                _stoneSound.Play();
+            }
+        }
+        else
+        {
+            // якщо кам≥нь зупинивс€, зупин€Їмо звук польоту
+            if (_stoneSound.isPlaying && _stoneSound.clip == _stoneFly)
+            {
+                _stoneSound.Stop();
+            }
+        }
     }
 
     // ћетод, що викликаЇтьс€ при доторканн≥ до ≥нших об'Їкт≥в
     private void OnCollisionEnter(Collision collision)
     {
         int layer = collision.gameObject.layer;
-        // ѕерев≥рка, чи доторкнулис€ до ст≥ни
-        if (LayerMask.LayerToName(layer) == _wallLayer || LayerMask.LayerToName(layer) == _playerLayer)
+        // ѕерев≥рка, чи доторкнулис€ до ст≥ни або гравц€
+        if (LayerMask.LayerToName(layer) == _wallLayer)
         {
-            _audioManager.PlaySFX(_audioManager.destroyStone);
+            StartCoroutine(DestroyStoneWithDelay());
+        }
+        if (LayerMask.LayerToName(layer) == _playerLayer)
+        {
             Destroy(gameObject);
         }
+    }
+
+    //  орутина дл€ знищенн€ камен€ п≥сл€ затримки
+    private IEnumerator DestroyStoneWithDelay()
+    {
+        // ¬≥дтворюЇмо звук знищенн€
+        _stoneSound.PlayOneShot(_stoneDestroy);
+
+        // ќч≥куЇмо тривал≥сть звуку перед знищенн€м камен€
+        yield return new WaitForSeconds(_stoneDestroy.length);
+
+        // «нищуЇмо кам≥нь
+        Destroy(gameObject);
     }
 }

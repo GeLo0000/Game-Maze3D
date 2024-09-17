@@ -9,7 +9,7 @@ public class GolemAttack : MonoBehaviour
     // Префаб каменя
     [SerializeField] private GameObject stonePrefab;
     // Сила, з якою кидається камінь
-    [SerializeField] private float throwForce = 10f;
+    [SerializeField] private float throwForce = 15f;
 
     // Змінні для розміру каменя
     [SerializeField] private Vector3 minStoneScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -21,6 +21,11 @@ public class GolemAttack : MonoBehaviour
     private bool _isHoldingStone = false; // Прапорець, щоб відстежувати чи голем тримає камінь
     private bool _holdOnRightHand = false; // Прапорець, щоб фіксувати камінь на правій руці
     private float _growthStartTime;
+
+    [SerializeField] private AudioSource _golemSound;
+
+    [SerializeField] private AudioClip _throwSound;
+    [SerializeField] private AudioClip _idleSound;
 
     private void Start()
     {
@@ -52,12 +57,15 @@ public class GolemAttack : MonoBehaviour
 
         // Запам'ятовуємо час початку росту
         _growthStartTime = Time.time;
+
+        _golemSound.PlayOneShot(_idleSound);
     }
 
     // Метод, що фіксує камінь на правій руці
     public void HoldStoneOnRightHand()
     {
         _holdOnRightHand = true; // Фіксуємо камінь на правій руці
+        _golemSound.PlayOneShot(_throwSound);
     }
 
     private void Update()
@@ -110,5 +118,7 @@ public class GolemAttack : MonoBehaviour
                 rb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
             }
         }
+
+        //_golemSound.PlayOneShot(_throwSound);
     }
 }
