@@ -45,27 +45,30 @@ public class StoneController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         int layer = other.gameObject.layer;
-        // Перевірка, чи доторкнулися до стіни або гравця
+
         if (LayerMask.LayerToName(layer) == _wallLayer)
         {
-            StartCoroutine(DestroyStoneWithDelay());
+            // Відтворюємо звук знищення
+            _stoneSound.clip = _stoneDestroy;
+            _stoneSound.Play();
+            Destroy(gameObject, _stoneDestroy.length);
         }
+
         if (LayerMask.LayerToName(layer) == _playerLayer)
         {
             Destroy(gameObject);
         }
     }
 
-    // Корутина для знищення каменя після затримки
-    private IEnumerator DestroyStoneWithDelay()
+    private void OnTriggerExit(Collider other)
     {
-        // Відтворюємо звук знищення
-        _stoneSound.PlayOneShot(_stoneDestroy);
-
-        // Очікуємо тривалість звуку перед знищенням каменя
-        yield return new WaitForSeconds(_stoneDestroy.length);
-
-        // Знищуємо камінь
-        Destroy(gameObject);
+        int layer = other.gameObject.layer;
+        // Перевірка, чи доторкнулися до стіни
+        if (LayerMask.LayerToName(layer) == _wallLayer)
+        {
+            // Зупинка руху каменя
+            _rigidbody.velocity = Vector3.zero; // Обнулення швидкості
+            _rigidbody.angularVelocity = Vector3.zero; // Обнулення кутової швидкості (якщо необхідно)
+        }
     }
 }
