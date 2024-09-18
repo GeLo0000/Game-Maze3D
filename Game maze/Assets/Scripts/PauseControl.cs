@@ -26,7 +26,7 @@ public class PauseControl : MonoBehaviour
     private void Update()
     {
         // Check if the Esc is pressed to toggle pause
-        if (Input.GetKeyDown(KeyCode.Space) && _gameEnded == false)
+        if (Input.GetKeyDown(KeyCode.Escape) && _gameEnded == false)
         {
             if (_isPaused)
             {

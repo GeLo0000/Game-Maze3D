@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 4612688383259829838}
   - component: {fileID: 5129915954778068729}
   - component: {fileID: 1467841312932735313}
-  m_Layer: 0
+  - component: {fileID: 7849869200517427934}
+  m_Layer: 7
   m_Name: Spear
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -28,13 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3572657834701196219}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071069, y: -0, z: -0, w: 0.70710677}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0, z: -0.727}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8976881819900488325}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &3004622789710183004
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -124,7 +125,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 17c047a714c47c34990341e68677802d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -208,6 +209,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &7849869200517427934
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3572657834701196219}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.026133003
+  m_Height: 0.84593534
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.11086818, z: 0.0000001201406}
 --- !u!1 &4003512997543407087
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,12 +363,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3c333d7d46b67488df070a4776aae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spearPrefab: {fileID: 3572657834701196219}
-  spawnPoint: {fileID: 3134350845269262387}
-  shootInterval: 2
-  spearSpeed: 10
-  spearLifetime: 5
-  shootSound: {fileID: 7970186351905389659}
+  _spearPrefab: {fileID: 3572657834701196219}
+  _spawnPoint: {fileID: 2072734321891885834}
+  _shootInterval: 2
+  _spearSpeed: 15
+  _spearLifetime: 9
+  _shootSound: {fileID: 7970186351905389659}
 --- !u!82 &7970186351905389659
 AudioSource:
   m_ObjectHideFlags: 0
@@ -465,10 +489,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7276235182832673568}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -0.727}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8976881819900488325}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}

@@ -1819,13 +1819,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44bf2571a6ca7e241b1250dfd94a5d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftHand: {fileID: 8185478607427820016}
-  rightHand: {fileID: 801357390973326730}
-  stonePrefab: {fileID: 876683211043303226, guid: 7aa7500586cfb7f4b90fec359ac752a4, type: 3}
-  throwForce: 20
-  minStoneScale: {x: 0.1, y: 0.1, z: 0.1}
-  maxStoneScale: {x: 1, y: 1, z: 1}
-  growthDuration: 1
+  _leftHand: {fileID: 8185478607427820016}
+  _rightHand: {fileID: 801357390973326730}
+  _stonePrefab: {fileID: 876683211043303226, guid: 7aa7500586cfb7f4b90fec359ac752a4, type: 3}
+  _throwForce: 20
+  _throwDirection: {fileID: 0}
+  _minStoneScale: {x: 0.1, y: 0.1, z: 0.1}
+  _maxStoneScale: {x: 1, y: 1, z: 1}
+  _growthDuration: 1
   _golemSound: {fileID: 5700354926432330773}
   _throwSound: {fileID: 8300000, guid: 80d2d559a5d8dfb4b925c66209539de6, type: 3}
   _idleSound: {fileID: 8300000, guid: f9bfeb9dec321844ab53c92f7daa9a00, type: 3}
@@ -1849,7 +1850,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 3.5473633
+  MinDistance: 1.443186
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
