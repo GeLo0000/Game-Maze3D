@@ -3,16 +3,27 @@ using UnityEngine;
 
 public class SpearTrap : MonoBehaviour
 {
-    [SerializeField] private GameObject spearPrefab; // Префаб списа
-    [SerializeField] private Transform spawnPoint; // Точка спавну списа
-    [SerializeField] private float shootInterval = 2f; // Інтервал між вистрілами
-    [SerializeField] private float spearSpeed = 10f; // Швидкість польоту списа
-    [SerializeField] private float spearLifetime = 5f; // Час життя списа
-    [SerializeField] private AudioSource shootSound; // Звук пострілу
+    // Prefab of the spear to be instantiated
+    [SerializeField] private GameObject _spearPrefab;
+
+    // The point where the spear will be spawned
+    [SerializeField] private Transform _spawnPoint;
+
+    // Time interval between each spear shot
+    [SerializeField] private float _shootInterval = 2f;
+
+    // Speed at which the spear will be shot
+    [SerializeField] private float _spearSpeed = 10f;
+
+    // Lifetime of the spear before it gets destroyed
+    [SerializeField] private float _spearLifetime = 5f;
+
+    // Audio source to play the shoot sound
+    [SerializeField] private AudioSource _shootSound;
 
     private void Start()
     {
-        // Починаємо цикл вистрілів
+        // Start the continuous shooting cycle
         StartCoroutine(ShootSpearRoutine());
     }
 
@@ -20,27 +31,27 @@ public class SpearTrap : MonoBehaviour
     {
         while (true)
         {
-            // Створюємо спис на позиції спавну
-            GameObject spear = Instantiate(spearPrefab, spawnPoint.position, spawnPoint.rotation);
+            // Instantiate the spear at the spawn point with correct rotation
+            GameObject spear = Instantiate(_spearPrefab, _spawnPoint.position, _spawnPoint.rotation);
             Rigidbody rb = spear.GetComponent<Rigidbody>();
 
-            // Задаємо йому напрямок і швидкість
+            // Set the velocity of the spear if it has a Rigidbody component
             if (rb != null)
             {
-                rb.velocity = -spawnPoint.up * spearSpeed;
+                rb.velocity = -_spawnPoint.up * _spearSpeed;
             }
 
-            // Відтворюємо звук пострілу
-            if (shootSound != null)
+            // Play the shooting sound if the AudioSource is assigned
+            if (_shootSound != null)
             {
-                shootSound.Play();
+                _shootSound.Play();
             }
 
-            // Знищуємо спис через певний час, щоб не накопичувались об'єкти
-            Destroy(spear, spearLifetime);
+            // Destroy the spear after a set lifetime to avoid clutter
+            Destroy(spear, _spearLifetime);
 
-            // Чекаємо наступний інтервал перед вистрілом
-            yield return new WaitForSeconds(shootInterval);
+            // Wait for the specified interval before the next shot
+            yield return new WaitForSeconds(_shootInterval);
         }
     }
 }

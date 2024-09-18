@@ -2,24 +2,28 @@ using UnityEngine;
 
 public class SpikeController : MonoBehaviour
 {
-    [SerializeField] private AudioSource spikeAudioSource;
-    [SerializeField] private AudioClip spikeUpSound;
-    [SerializeField] private AudioClip spikeDownSound;
+    // Reference to the AudioSource for playing sound
+    [SerializeField] private AudioSource _spikeAudioSource;
 
-    // Метод, який буде викликаний з події анімації
+    // Audio clips for the spike's up and down movements
+    [SerializeField] private AudioClip _spikeUpSound;
+    [SerializeField] private AudioClip _spikeDownSound;
+
+    // Method to play the spike-up sound, triggered by animation event
     public void PlaySpikeUPSound()
     {
-        if (spikeAudioSource != null && spikeUpSound != null)
+        if (_spikeAudioSource != null && _spikeUpSound != null)
         {
-            spikeAudioSource.PlayOneShot(spikeUpSound);
+            _spikeAudioSource.PlayOneShot(_spikeUpSound);
         }
     }
+
+    // Method to play the spike-down sound, triggered by animation event
     public void PlaySpikeDownSound()
     {
-        if (spikeAudioSource != null && spikeDownSound != null)
+        if (_spikeAudioSource != null && _spikeDownSound != null)
         {
-            spikeAudioSource.PlayOneShot(spikeDownSound);
+            _spikeAudioSource.PlayOneShot(_spikeDownSound);
         }
     }
 }
-

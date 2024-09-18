@@ -5,33 +5,34 @@ public class MenuManager : MonoBehaviour
     // Variable to store the previous menu
     private GameObject _previousMenu;
 
+    // Variable to store the next menu
     private GameObject _nextMenu;
 
-    // Method to open the information menu
-
+    // Method to set previous menu
     public void setCurrentMenu(GameObject currentMenu)
     {
         _previousMenu = currentMenu;
     }
 
+    // Method to open next menu
     public void OpenNewMenu(GameObject _newMenu)
     {
         _nextMenu = _newMenu;
 
-        // Disable the current menu
+        // Disable current menu
         _previousMenu.SetActive(false);
 
-        // Enable the information menu
+        // Enable next menu
         _nextMenu.SetActive(true);
     }
 
-    // Method to close the information menu and return to the previous one
+    // Method to close next menu and return to the previous one
     public void CloseNewMenu()
     {
-        // Disable the information menu
+        // Disable next menu
         _nextMenu.SetActive(false);
 
-        // Enable the previous menu (if one exists)
+        // Enable previous menu (if one exists)
         if (_previousMenu != null)
         {
             _previousMenu.SetActive(true);

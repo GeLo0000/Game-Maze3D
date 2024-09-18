@@ -2,121 +2,122 @@ using UnityEngine;
 
 public class GolemAttack : MonoBehaviour
 {
-    // Позиції рук, між якими буде спавнитися камінь
-    [SerializeField] private Transform leftHand;
-    [SerializeField] private Transform rightHand;
+    // Positions of hands for spawning the stone
+    [SerializeField] private Transform _leftHand;
+    [SerializeField] private Transform _rightHand;
 
-    // Префаб каменя
-    [SerializeField] private GameObject stonePrefab;
-    // Сила, з якою кидається камінь
-    [SerializeField] private float throwForce = 15f;
+    // Stone prefab and throw settings
+    [SerializeField] private GameObject _stonePrefab;
+    [SerializeField] private float _throwForce = 15f;
+    [SerializeField] private Transform _throwDirection;
 
-    // Змінні для розміру каменя
-    [SerializeField] private Vector3 minStoneScale = new Vector3(0.1f, 0.1f, 0.1f);
-    [SerializeField] private Vector3 maxStoneScale = new Vector3(1f, 1f, 1f);
-    [SerializeField] private float growthDuration = 1f; // Час, за який камінь досягає максимального розміру
-
-    private GameObject _spawnedStone;
-    private Animator _animator;
-    private bool _isHoldingStone = false; // Прапорець, щоб відстежувати чи голем тримає камінь
-    private bool _holdOnRightHand = false; // Прапорець, щоб фіксувати камінь на правій руці
-    private float _growthStartTime;
+    // Stone size settings
+    [SerializeField] private Vector3 _minStoneScale = new Vector3(0.1f, 0.1f, 0.1f);
+    [SerializeField] private Vector3 _maxStoneScale = new Vector3(1f, 1f, 1f);
+    [SerializeField] private float _growthDuration = 1f; // Time for stone to reach max size
 
     [SerializeField] private AudioSource _golemSound;
-
     [SerializeField] private AudioClip _throwSound;
     [SerializeField] private AudioClip _idleSound;
 
+    private GameObject _spawnedStone;
+    private Animator _animator;
+
+    // Flag to track if the golem is holding the stone
+    private bool _isHoldingStone = false;
+
+    // Flag to fix stone on the right hand
+    private bool _holdOnRightHand = false;
+    private float _growthStartTime;
+
+    // Initialize animator component
     private void Start()
     {
         _animator = GetComponent<Animator>();
     }
 
-    // Метод для визначення середньої точки між двома руками
+    // Calculate the midpoint between the hands for stone spawning
     private Vector3 CalculateSpawnPoint()
     {
-        return (leftHand.position + rightHand.position) / 2;
+        return (_leftHand.position + _rightHand.position) / 2;
     }
 
-    // Метод для визначення обертання каменя, залежно від позицій рук
+    // Calculate the rotation of the stone based on hand positions
     private Quaternion CalculateSpawnRotation()
     {
-        Vector3 direction = (rightHand.position - leftHand.position).normalized;
+        Vector3 direction = (_rightHand.position - _leftHand.position).normalized;
         return Quaternion.LookRotation(direction);
     }
 
-    // Метод, який викликається під час тертя руками (в анімації)
+    // Called during hand rubbing animation to spawn the stone
     public void SpawnStone()
     {
-        // Створюємо камінь між руками з обертанням між руками
+        // Instantiate the stone at the midpoint between hands with appropriate rotation
         Vector3 spawnPoint = CalculateSpawnPoint();
         Quaternion spawnRotation = CalculateSpawnRotation();
-        _spawnedStone = Instantiate(stonePrefab, spawnPoint, spawnRotation);
+        _spawnedStone = Instantiate(_stonePrefab, spawnPoint, spawnRotation);
         _isHoldingStone = true;
-        _holdOnRightHand = false; // Камінь все ще тримається між двома руками
+        _holdOnRightHand = false; // Stone is still held between both hands
 
-        // Запам'ятовуємо час початку росту
+        // Record the start time for growth
         _growthStartTime = Time.time;
 
         _golemSound.PlayOneShot(_idleSound);
     }
 
-    // Метод, що фіксує камінь на правій руці
+    // Fix the stone to the right hand
     public void HoldStoneOnRightHand()
     {
-        _holdOnRightHand = true; // Фіксуємо камінь на правій руці
+        _holdOnRightHand = true;
         _golemSound.PlayOneShot(_throwSound);
     }
 
     private void Update()
     {
-        // Якщо камінь створений і його потрібно тримати
+        // Update the stone's position and scale if it is being held
         if (_spawnedStone != null && _isHoldingStone)
         {
             if (_holdOnRightHand)
             {
-                // Якщо прапорець встановлений, фіксуємо камінь на правій руці
-                _spawnedStone.transform.position = rightHand.position;
+                // Fix the stone's position to the right hand
+                _spawnedStone.transform.position = _rightHand.position;
             }
             else
             {
-                // Оновлюємо позицію і обертання каменя між двома руками, поки голем його тре
+                // Update stone's position and rotation between the hands
                 _spawnedStone.transform.position = CalculateSpawnPoint();
                 _spawnedStone.transform.rotation = CalculateSpawnRotation();
             }
 
-            // Розрахунок нового розміру каменя
-            float growthProgress = (Time.time - _growthStartTime) / growthDuration;
+            // Update stone's size based on time elapsed
+            float growthProgress = (Time.time - _growthStartTime) / _growthDuration;
             if (growthProgress < 1f)
             {
-                // Розрахунок розміру на основі часу
-                _spawnedStone.transform.localScale = Vector3.Lerp(minStoneScale, maxStoneScale, growthProgress);
+                // Interpolate stone size based on growth progress
+                _spawnedStone.transform.localScale = Vector3.Lerp(_minStoneScale, _maxStoneScale, growthProgress);
             }
             else
             {
-                // Розмір досяг максимального значення
-                _spawnedStone.transform.localScale = maxStoneScale;
+                // Set stone size to maximum value
+                _spawnedStone.transform.localScale = _maxStoneScale;
             }
         }
     }
 
-    // Метод, який викликається під час замаху (в анімації)
+    // Called during the throwing animation to launch the stone
     public void ThrowStone()
     {
         if (_spawnedStone != null)
         {
-            // Знімаємо прапорець, щоб більше не прив'язувати камінь до рук
+            // Unfix the stone from the hands
             _isHoldingStone = false;
 
-            // Орієнтуємо камінь в напрямку, на який дивиться голем
-            // _spawnedStone.transform.rotation = Quaternion.LookRotation(transform.forward);
-
-            // Отримуємо Rigidbody каменя і додаємо силу для кидка
+            // Get the Rigidbody component and apply force for the throw
             Rigidbody rb = _spawnedStone.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.velocity = Vector3.zero;
-                rb.AddForce(transform.right * throwForce, ForceMode.Impulse);
+                rb.velocity = Vector3.zero; // Reset velocity
+                rb.AddForce(_throwDirection.right * _throwForce, ForceMode.Impulse); // Apply throwing force
             }
         }
     }

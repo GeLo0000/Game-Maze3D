@@ -10,7 +10,7 @@ public class CameraCharacter : MonoBehaviour
     // Reference to the character's body
     [SerializeField] private Transform _playerBody;
 
-    // Reference to the desired camera position (attached to the character)
+    // Reference to the desired camera position
     [SerializeField] private Transform _cameraPos;
 
     [SerializeField] private float _maxAngle = 70f;
@@ -40,7 +40,9 @@ public class CameraCharacter : MonoBehaviour
 
         // Adjust the vertical rotation based on vertical mouse movement (up/down)
         _verticalRotation -= mouseY;
-        _verticalRotation = Mathf.Clamp(_verticalRotation, _minAngle, _maxAngle); // Clamp vertical rotation
+
+        // Clamp vertical rotation
+        _verticalRotation = Mathf.Clamp(_verticalRotation, _minAngle, _maxAngle);
 
         // Adjust the horizontal rotation based on horizontal mouse movement (left/right)
         _horizontalRotation += mouseX;

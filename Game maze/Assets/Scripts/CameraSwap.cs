@@ -2,46 +2,51 @@ using UnityEngine;
 
 public class CameraSwap : MonoBehaviour
 {
-    [SerializeField] private GameObject firstPersonCamera;
-    [SerializeField] private GameObject thirdPersonCamera;
-    [SerializeField] private Camera firstPersonUICamera;
-    [SerializeField] private Camera thirdPersonUICamera;
+    // Reference to the cameras
+    [SerializeField] private GameObject _firstPersonCamera;
+    [SerializeField] private GameObject _thirdPersonCamera;
+    [SerializeField] private Camera _firstPersonUICamera;
+    [SerializeField] private Camera _thirdPersonUICamera;
 
-    [SerializeField] private Canvas[] canvases;
-    [SerializeField] private PauseControl pauseControl;
-    [SerializeField] private GameObject settingsMenu;
+    // Array of canvases to be updated
+    [SerializeField] private Canvas[] _canvases;
 
+    // Reference to the pause control manager
+    [SerializeField] private PauseControl _pauseControl;
 
-    // ¬икликаЇтьс€ при натисканн≥ кнопки
+    // Reference to the settings menu game object
+    [SerializeField] private GameObject _settingsMenu;
+
+    // Called when the button to activate first-person view is pressed
     public void ActivateFirstPersonView()
     {
-        // јктивуЇмо камери першого лиц€
-        firstPersonCamera.SetActive(true);
+        _firstPersonCamera.SetActive(true);
+        _thirdPersonCamera.SetActive(false);
 
-        // ¬имикаЇмо камери третього лиц€
-        thirdPersonCamera.SetActive(false);
-
-        SetCanvases(firstPersonUICamera);
+        // Update all canvases to use the first-person UI camera
+        SetCanvases(_firstPersonUICamera);
     }
 
+    // Called when the button to activate third-person view is pressed
     public void ActivateThirdPersonView()
     {
-        // ¬микаЇмо камери третього лиц€
-        thirdPersonCamera.SetActive(true);
+        _thirdPersonCamera.SetActive(true);
+        _firstPersonCamera.SetActive(false);
 
-        // ¬имикаЇмо камери першого лиц€
-        firstPersonCamera.SetActive(false);
-
-        SetCanvases(thirdPersonUICamera);
+        // Update all canvases to use the third-person UI camera
+        SetCanvases(_thirdPersonUICamera);
     }
 
+    // Updates all canvases with the new UI camera
     private void SetCanvases(Camera UICamera)
     {
-        pauseControl.ResumeGame(settingsMenu);
-        foreach (Canvas canvas in canvases)
+        // Resume the game and close the settings menu
+        _pauseControl.ResumeGame(_settingsMenu);
+
+        // Set the world camera for each canvas
+        foreach (Canvas canvas in _canvases)
         {
             canvas.worldCamera = UICamera;
         }
     }
 }
-

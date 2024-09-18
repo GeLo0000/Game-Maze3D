@@ -10,29 +10,28 @@ public class PauseControl : MonoBehaviour
     // Reference to the pause menu UI
     [SerializeField] private GameObject _pauseMenuUI;
 
-    // Reference to the audio manager (optional)
+    // Reference to the audio manager
     private AudioManager _audioManager;
 
-    // Called when the script instance is being loaded
     private void Awake()
     {
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
-    // Called once per frame
+
     private void Update()
     {
-        // Check if the spacebar (or another key) is pressed to toggle pause
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Check if the Esc is pressed to toggle pause
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (_isPaused)
             {
-                ResumeGame(_pauseMenuUI);  // Resume the game if it's paused
+                ResumeGame(_pauseMenuUI);
             }
             else
             {
                 _audioManager.PlaySFX(_audioManager.pause);
-                Pause(_pauseMenuUI);  // Pause the game if it's running
+                Pause(_pauseMenuUI);
             }
         }
     }
@@ -45,7 +44,6 @@ public class PauseControl : MonoBehaviour
         _isPaused = false;
         Cursor.visible = false; // Hide the cursor when resuming the game
         Cursor.lockState = CursorLockMode.Locked; // Lock the cursor in the center of the screen
-        //_audioManager.musicSource.Play(); // Resume the music
     }
 
     // Pauses the game by showing the pause menu, freezing time, and showing the cursor
@@ -58,6 +56,5 @@ public class PauseControl : MonoBehaviour
         Cursor.lockState = CursorLockMode.None; // Unlock the cursor so the player can move it
         
         _audioManager.soundMoveSource.Pause();
-        //_audioManager.musicSource.Pause(); // Pause the music
     }
 }
