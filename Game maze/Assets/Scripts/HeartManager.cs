@@ -45,6 +45,7 @@ public class HeartManager : MonoBehaviour
             // Destroy all projectiles and display the death menu and pause the game
             DestroyAllProjectiles();
             _pauseManager.Pause(deathMenu);
+            _pauseManager.setGameEnded(true);
         }
         else
         {

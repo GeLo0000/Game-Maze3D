@@ -45,6 +45,7 @@ public class Finish : MonoBehaviour
             // Display finish time and show finish menu
             _finishText.text = _finishText.text + _timer.GetTimer();
             _pauseManager.Pause(finishMenu);
+            _pauseManager.setGameEnded(true);
             _audioManager.PlayMusic(_audioManager.finish);
         }
     }

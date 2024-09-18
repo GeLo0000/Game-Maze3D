@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8189483701357349861}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 125, y: -2.9, z: 75}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
@@ -142,11 +142,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -7707300467724041674, guid: f845c0e178ddffe4b8f638ac2a46ea30, type: 3}
 --- !u!95 &7146149055787722276
@@ -278,9 +278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b150f3a5b7cd86f42b0202f25e3c3b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spikeAudioSource: {fileID: 5693233746014844191}
-  spikeUpSound: {fileID: 8300000, guid: 5b95772cdc9cfd54bbad94ea9fdde695, type: 3}
-  spikeDownSound: {fileID: 8300000, guid: cc3959ffa1ad4164bbe41e6d779622d2, type: 3}
+  _spikeAudioSource: {fileID: 5693233746014844191}
+  _spikeUpSound: {fileID: 8300000, guid: 5b95772cdc9cfd54bbad94ea9fdde695, type: 3}
+  _spikeDownSound: {fileID: 8300000, guid: cc3959ffa1ad4164bbe41e6d779622d2, type: 3}
 --- !u!4 &2008038921254570934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f845c0e178ddffe4b8f638ac2a46ea30, type: 3}

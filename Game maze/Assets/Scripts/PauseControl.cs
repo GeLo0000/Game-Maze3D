@@ -9,9 +9,13 @@ public class PauseControl : MonoBehaviour
 
     // Reference to the pause menu UI
     [SerializeField] private GameObject _pauseMenuUI;
+    [SerializeField] private GameObject _settingsMenuUI;
+    [SerializeField] private GameObject _infoMenuUI;
 
     // Reference to the audio manager
     private AudioManager _audioManager;
+
+    private bool _gameEnded = false;
 
     private void Awake()
     {
@@ -22,11 +26,15 @@ public class PauseControl : MonoBehaviour
     private void Update()
     {
         // Check if the Esc is pressed to toggle pause
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && _gameEnded == false)
         {
             if (_isPaused)
             {
                 ResumeGame(_pauseMenuUI);
+                if (_settingsMenuUI.activeSelf)
+                    _settingsMenuUI.SetActive(false);
+                if (_infoMenuUI.activeSelf)
+                    _infoMenuUI.SetActive(false);
             }
             else
             {
@@ -44,6 +52,8 @@ public class PauseControl : MonoBehaviour
         _isPaused = false;
         Cursor.visible = false; // Hide the cursor when resuming the game
         Cursor.lockState = CursorLockMode.Locked; // Lock the cursor in the center of the screen
+
+        setGameEnded(false);
     }
 
     // Pauses the game by showing the pause menu, freezing time, and showing the cursor
@@ -56,5 +66,9 @@ public class PauseControl : MonoBehaviour
         Cursor.lockState = CursorLockMode.None; // Unlock the cursor so the player can move it
         
         _audioManager.soundMoveSource.Pause();
+    }
+    public void setGameEnded(bool isEnd)
+    {
+        _gameEnded = isEnd;
     }
 }
